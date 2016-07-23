@@ -1,20 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context="com.example.flatbuffersdemo.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/compareBoth"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="@+id/content_main"
-        app:layout_constraintLeft_toLeftOf="@+id/content_main"
-        app:layout_constraintRight_toRightOf="@+id/content_main"
-        app:layout_constraintTop_toTopOf="@+id/content_main" />
+        android:layout_below="@+id/parseflatbuff"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:text="Compare Both"
+        android:textSize="16sp" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/parseflatbuff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/parsejson"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:text="Parse using FlatBuffers"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/parsejson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="51dp"
+        android:text="Parse using gson"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/jsonresult"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/flatbufferresult"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+    </LinearLayout>
+    
+</RelativeLayout>
