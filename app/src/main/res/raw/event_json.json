@@ -1,0 +1,52 @@
+{
+  "event": [
+    {
+      "id": 1,
+      "name": "Android Conference",
+      "location": "Delhi",
+      "date": "2016/04/05"
+    },
+    {
+      "id": 2,
+      "name": "iOS Conference",
+      "location": "Bangalore",
+      "date": "2016/05/01"
+    },
+    {
+      "id": 3,
+      "name": "Music Lauch",
+      "location": "Bangalore",
+      "date": "2016/04/05"
+    },
+    {
+      "id": 4,
+      "name": "Album Release",
+      "location": "Mumbai",
+      "date": "2015/04/06"
+    },
+    {
+      "id": 5,
+      "name": "Music Video Launch",
+      "location": "Delhi",
+      "date": "2016/04/01"
+    },
+    {
+      "id": 6,
+      "name": "Pool Party",
+      "location": "Noida",
+      "date": "2016/11/22"
+    },
+    {
+      "id": 7,
+      "name": "StandUp Comedy",
+      "location": "Kolkata",
+      "date": "2015/05/11"
+    },
+    {
+      "id": 8,
+      "name": "Motivational Speech by IIT graduate",
+      "location": "Delhi",
+      "date": "2016/12/12"
+    }
+  ]
+}
