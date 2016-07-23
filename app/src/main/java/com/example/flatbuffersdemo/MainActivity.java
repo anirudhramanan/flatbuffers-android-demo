@@ -1,15 +1,28 @@
 package com.example.flatbuffersdemo;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.flatbuffersdemo.flatbuffer.Event;
+import com.example.flatbuffersdemo.flatbuffer.EventList;
+import com.example.flatbuffersdemo.json.EventJson;
+import com.example.flatbuffersdemo.json.EventListJson;
+import com.google.gson.Gson;
+
+import java.nio.ByteBuffer;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getName();
+    private double jsonTime, flatBuffTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +31,58 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button parseUsingGson = (Button) findViewById(R.id.parsejson);
+        Button parseUsingFlatBuffer = (Button) findViewById(R.id.parseflatbuff);
+        Button compareButton = (Button) findViewById(R.id.compareBoth);
+        final TextView jsonResultTextView = (TextView) findViewById(R.id.jsonresult);
+        final TextView flatResultTextView = (TextView) findViewById(R.id.flatbufferresult);
+
+        parseUsingGson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                long startTime = System.currentTimeMillis();
+                Gson gson = new Gson();
+                EventListJson eventListJson = gson.fromJson(Utils.readJSONFile(MainActivity.this), EventListJson.class);
+
+                for (int i = 0; i < eventListJson.eventJsonArrayList.size(); i++) {
+                    EventJson eventJson = eventListJson.eventJsonArrayList.get(i);
+                    Log.d(TAG, eventJson.toString());
+                }
+
+                long endTime = System.currentTimeMillis();
+                jsonTime = endTime - startTime;
+                jsonResultTextView.setText("Results (Gson)\n\n" + "Total Size : " + eventListJson.eventJsonArrayList.size()
+                        + "\nTotal Time : " + jsonTime + " ms");
+            }
+        });
+
+        parseUsingFlatBuffer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                long startTime = System.currentTimeMillis();
+                ByteBuffer byteBuffer = ByteBuffer.wrap(Utils.readFlatBuffFile(MainActivity.this));
+                EventList eventList = EventList.getRootAsEventList(byteBuffer);
+
+                for (int i = 0; i < eventList.eventLength(); i++) {
+                    Event event = eventList.event(i);
+                    Log.d(TAG, event.id() + "");
+                }
+
+                long endTime = System.currentTimeMillis();
+                flatBuffTime = endTime - startTime;
+                flatResultTextView.setText("Results (FlatBuffer)\n\n" + "Total Size : " + eventList.eventLength()
+                        + "\nTotal Time : " + flatBuffTime + " ms");
+            }
+        });
+
+        compareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (jsonResultTextView.getText() != null && flatResultTextView.getText() != null) {
+                    double per = (flatBuffTime / jsonTime) * 100;
+                    Snackbar.make(view, "FlatBuffer is " +  per + "x faster than Gson", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
     }
@@ -49,4 +108,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
