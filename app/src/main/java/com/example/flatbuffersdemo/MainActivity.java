@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (jsonResultTextView.getText() != null && flatResultTextView.getText() != null) {
-                    double per = (flatBuffTime / jsonTime) * 100;
+                    double per = (jsonTime / flatBuffTime);
                     Snackbar.make(view, "FlatBuffer is " +  per + "x faster than Gson", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
