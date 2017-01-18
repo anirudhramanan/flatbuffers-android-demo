@@ -1,6 +1,7 @@
 package com.example.flatbuffersdemo;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,8 +22,17 @@ import java.nio.ByteBuffer;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getName();
+    private static final String TAG = "MainActivity";
     private double jsonTime, flatBuffTime;
+    private Gson gson;
+
+    @NonNull
+    private Gson getGson() {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        return gson;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button parseUsingGson = (Button) findViewById(R.id.parsejson);
         Button parseUsingFlatBuffer = (Button) findViewById(R.id.parseflatbuff);
-        Button compareButton = (Button) findViewById(R.id.compareBoth);
         final TextView jsonResultTextView = (TextView) findViewById(R.id.jsonresult);
         final TextView flatResultTextView = (TextView) findViewById(R.id.flatbufferresult);
 
@@ -41,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 long startTime = System.currentTimeMillis();
-                Gson gson = new Gson();
-                EventListJson eventListJson = gson.fromJson(Utils.readJSONFile(MainActivity.this), EventListJson.class);
+                EventListJson eventListJson = getGson().fromJson(Utils.readJSONFile(MainActivity.this), EventListJson.class);
 
                 for (int i = 0; i < eventListJson.eventJsonArrayList.size(); i++) {
                     EventJson eventJson = eventListJson.eventJsonArrayList.get(i);
@@ -74,17 +82,6 @@ public class MainActivity extends AppCompatActivity {
                         + "\nTotal Time : " + flatBuffTime + " ms");
             }
         });
-
-        compareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (jsonResultTextView.getText() != null && flatResultTextView.getText() != null) {
-                    double per = (jsonTime / flatBuffTime);
-                    Snackbar.make(view, "FlatBuffer is " +  per + "x faster than Gson", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            }
-        });
     }
 
     @Override
@@ -108,5 +105,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

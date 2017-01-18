@@ -2,10 +2,6 @@ package com.example.flatbuffersdemo.json;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by anirudh.r on 24/07/16.
- */
-
 public class EventJson {
 
     @SerializedName("id")

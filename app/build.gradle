@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.example.flatbuffersdemo"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -21,10 +21,10 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.1.0'
-    compile 'com.android.support:design:24.1.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
     compile 'com.google.code.gson:gson:2.4'
-    testCompile 'junit:junit:4.12'
     compile files('libs/flatbuffers-java-1.2.0-SNAPSHOT.jar')
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
+
+    testCompile 'junit:junit:4.12'
 }
